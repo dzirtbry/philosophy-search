@@ -1,6 +1,7 @@
 from lxml import html
 from urllib2 import urlopen
 import sys
+import web
 
 WIKI_ROOT = 'https://en.wikipedia.org'
 
