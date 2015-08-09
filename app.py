@@ -27,20 +27,20 @@ class StringGeneratorWebService(object):
         return page_name, page_url
 
     @cherrypy.tools.accept(media='text/plain')
-    def GET(self, url):
+    def GET(self, url=""):
         next_word, next_url = self.find_next_word(url)
         return json.dumps({"name": next_word, "url": next_url})
 
-    def POST(self, length=8):
-        some_string = ''.join(random.sample(string.hexdigits, int(length)))
-        cherrypy.session['mystring'] = some_string
-        return some_string
-
-    def PUT(self, another_string):
-        cherrypy.session['mystring'] = another_string
-
-    def DELETE(self):
-        cherrypy.session.pop('mystring', None)
+    # def POST(self, length=8):
+    #     some_string = ''.join(random.sample(string.hexdigits, int(length)))
+    #     cherrypy.session['mystring'] = some_string
+    #     return some_string
+    #
+    # def PUT(self, another_string):
+    #     cherrypy.session['mystring'] = another_string
+    #
+    # def DELETE(self):
+    #     cherrypy.session.pop('mystring', None)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,35 @@
+<!--<input type="text" value="https://en.wikipedia.org/wiki/Anarchy" name="length"/>-->
+<!--<button id="generate-string">Give it now!</button>-->
+<!--<div id="the-string">-->
+    <!--<input type="text"/>-->
+    <!--<button id="replace-string">Replace</button>-->
+    <!--<button id="delete-string">Delete it</button>-->
+<!--</div>-->
+
+<div class="jumbotron">
+  <h1>Lets search!</h1>
+
+  <p class="lead">
+    There is a known idea that if you follow the firts lik in the Wiki page - you will end up on Philosophy after a
+    while.
+    Lets check!
+  </p>
+
+    <label>Wiki url:
+      <input ng-model="input.url" type="text"/>
+    </label>
+
+    <p><a class="btn btn-lg btn-success" ng-click="trace()">Trace!<span class="glyphicon glyphicon-ok"></span></a></p>
+
+    <span>{{input.url}}</span>
+    <table>
+      <tr>
+        <th>Page</th>
+        <th>Url</th>
+      </tr>
+      <tr ng-repeat="page in path | orderBy:'-toString()'">
+        <td>{{page.name}}</td>
+        <td><a href="{{page.url}}">{{page.url}}</a></td>
+      </tr>
+    </table>
+</div>
