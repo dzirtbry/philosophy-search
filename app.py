@@ -1,7 +1,5 @@
 import os
 import json
-import random
-import string
 import cherrypy
 
 from lxml import html
@@ -13,7 +11,7 @@ WIKI_ROOT = 'https://en.wikipedia.org'
 class StringGenerator(object):
     @cherrypy.expose
     def index(self):
-        return open('public/index.html')
+        return open('static/index.html')
 
 
 class StringGeneratorWebService(object):
@@ -31,17 +29,6 @@ class StringGeneratorWebService(object):
         next_word, next_url = self.find_next_word(url)
         return json.dumps({"name": next_word, "url": next_url})
 
-    # def POST(self, length=8):
-    #     some_string = ''.join(random.sample(string.hexdigits, int(length)))
-    #     cherrypy.session['mystring'] = some_string
-    #     return some_string
-    #
-    # def PUT(self, another_string):
-    #     cherrypy.session['mystring'] = another_string
-    #
-    # def DELETE(self):
-    #     cherrypy.session.pop('mystring', None)
-
 
 if __name__ == '__main__':
     conf = {
@@ -56,18 +43,13 @@ if __name__ == '__main__':
         '/wiki': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             'tools.response_headers.on': True,
-            'tools.response_headers.headers': [('Content-Type', 'text/plain')],
+            'tools.response_headers.headers': [('Content-Type', 'application/json')],
         },
         '/static': {
             'tools.staticdir.on': True,
-            'tools.staticdir.dir': './public'
+            'tools.staticdir.dir': './static'
         }
     }
     webapp = StringGenerator()
     webapp.wiki = StringGeneratorWebService()
     cherrypy.quickstart(webapp, '/', conf)
-
-
-
-# if __name__ == '__main__':
-# cherrypy.quickstart(HelloWorld())

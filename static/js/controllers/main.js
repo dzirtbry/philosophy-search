@@ -13,7 +13,7 @@ angular.module('philosopySearchApp')
       url: "https://en.wikipedia.org/wiki/Anarchy"
     };
     $scope.path = [];
-    $scope.finishName = "Philosophy";
+    $scope.finishName = "https://en.wikipedia.org/wiki/Philosophy";
     $scope.finished = false;
 
 
@@ -25,7 +25,7 @@ angular.module('philosopySearchApp')
 
     $scope.getPath = function (name, url, path) {
       path.push({name: name, url: url});
-      if (name.toLowerCase() === $scope.finishName.toLowerCase()) {
+      if (url.toLowerCase() === $scope.finishName.toLowerCase()) {
         $scope.finised = true;
         return;
       }
