@@ -19,7 +19,7 @@ class StringGeneratorWebService(object):
 
     def find_next_word(self, url):
         tree = html.parse(urlopen(url))
-        xpath = tree.xpath('//*[@id="mw-content-text"]/p[1]/a[starts-with(@href, "/wiki")]')
+        xpath = tree.xpath('//*[@id="mw-content-text"]/p/a[starts-with(@href, "/wiki")]')
         page_name = xpath[0].text
         page_url = WIKI_ROOT + xpath[0].attrib['href']
         return page_name, page_url
