@@ -1,11 +1,3 @@
-<!--<input type="text" value="https://en.wikipedia.org/wiki/Anarchy" name="length"/>-->
-<!--<button id="generate-string">Give it now!</button>-->
-<!--<div id="the-string">-->
-<!--<input type="text"/>-->
-<!--<button id="replace-string">Replace</button>-->
-<!--<button id="delete-string">Delete it</button>-->
-<!--</div>-->
-
 <div class="jumbotron">
   <h1>Lets search!</h1>
 
@@ -22,12 +14,12 @@
   <p><a class="btn btn-lg btn-success" ng-click="trace()">Trace!<span class="glyphicon glyphicon-ok"></span></a></p>
 
   <span>{{input.url}}</span>
-  <table>
+  <table class="table table-striped table-hover">
     <tr>
       <th>Page</th>
       <th>Url</th>
     </tr>
-    <tr ng-repeat="page in path">
+    <tr ng-repeat="page in path" ng-class="{philosophy:'success', circle:'warning', '':'info'}[page.type]">
       <td>{{page.name}}</td>
       <td><a href="{{page.url}}">{{page.url}}</a></td>
     </tr>

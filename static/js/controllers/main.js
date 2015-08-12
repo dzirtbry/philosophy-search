@@ -7,26 +7,47 @@
  * # MainCtrl
  * Controller of the philosopySearchApp
  */
-angular.module('philosopySearchApp')
+angular.module('philosophySearchApp')
   .controller('MainCtrl', function ($scope, $http) {
     $scope.input = {
       url: "https://en.wikipedia.org/wiki/Anarchy"
     };
     $scope.path = [];
-    $scope.finishName = "https://en.wikipedia.org/wiki/Philosophy";
+    $scope.finishUrl = "https://en.wikipedia.org/wiki/Philosophy";
     $scope.finished = false;
 
 
     $scope.trace = function () {
+      $scope.path = [];
       $scope.finished = false;
       var word = $scope.input.url.slice($scope.input.url.lastIndexOf('/') + 1);
-      $scope.getPath(word, $scope.input.url, $scope.path);
+      $scope.tracePath(word, $scope.input.url, $scope.path);
     };
 
-    $scope.getPath = function (name, url, path) {
-      path.push({name: name, url: url});
-      if (url.toLowerCase() === $scope.finishName.toLowerCase()) {
+    $scope.tracePath = function (name, url, path) {
+      this.hasDuplicates = function (array) {
+        var urlSet = new Set(array.map(function (t) {
+          return t.url
+        }));
+        return urlSet.size != array.length;
+      };
+
+      var page = {name: name, url: url, type: ''};
+      path.push(page);
+      if (url.toLowerCase() === $scope.finishUrl.toLowerCase()) {
         $scope.finised = true;
+        page.type = 'philosophy';
+        return;
+      }
+      if (this.hasDuplicates(path)) {
+        $scope.finised = true;
+        for (var i = 0; i < path.length; i++) {
+          if (url.toLowerCase() === path[i].url.toLowerCase()) {
+            path[i].type = 'circle';
+          }
+        }
+
+        page.type = 'circle';
         return;
       }
       $http({
@@ -35,7 +56,7 @@ angular.module('philosopySearchApp')
         params: {"url": url}
       }).success(function (data) {
         console.log(data);
-        $scope.getPath(data.name, data.url, path);
+        $scope.tracePath(data.name, data.url, path);
       });
 
     };

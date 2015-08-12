@@ -9,6 +9,14 @@ body {
     padding: 0;
 }
 
+table {
+    width: 100%;
+}
+
+th {
+    text-align: center;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -64,9 +72,9 @@ body {
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-    .container {
-        max-width: 730px;
-    }
+    /*.container {*/
+        /*max-width: 730px;*/
+    /*}*/
 
     /* Remove the padding we set earlier */
     .header,
