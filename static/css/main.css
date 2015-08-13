@@ -75,9 +75,10 @@ table.result th:nth-child(2) {
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-    /*.container {*/
-        /*max-width: 730px;*/
-    /*}*/
+
+    .jumbotron h1, .jumbotron .h1 {
+        font-size: 56px;
+    }
 
     /* Remove the padding we set earlier */
     .header,

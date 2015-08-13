@@ -18,7 +18,7 @@ angular.module('philosophySearchApp')
 
 
     $scope.trace = function () {
-      //$scope.path = [];
+      $scope.path = [];
       $scope.finished = false;
       var word = $scope.input.url.slice($scope.input.url.lastIndexOf('/') + 1);
       $scope.tracePath(word, $scope.input.url, $scope.path);
