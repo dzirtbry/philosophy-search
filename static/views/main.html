@@ -22,12 +22,28 @@
     </div>
   </form>
 
+  <div ng-show="finished">
+    <div ng-show="path[path.length-1].type == 'philosophy'">
+      <span>Reached <a ng-href="{{finishUrl}}">Philosophy</a>
+        from <a ng-href="{{path[0].url}}">{{path[0].name}}</a> in {{path.length}} hops!</span>
+    </div>
+    <div ng-show="path[path.length-1].type == 'circle'">
+      <span>Could not reach <a ng-href="{{finishUrl}}">Philosophy</a> from <a ng-href="{{path[0].url}}">{{path[0].name}}</a>!
+        Detected circular dependency on <a ng-href="{{path[path.length-1].url}}">{{path[path.length-1].name}}</a>.</span>
+    </div>
+    <div ng-show="path[path.length-1].type == 'last'">
+      <span>Could not reach <a ng-href="{{finishUrl}}">Philosophy</a> from <a ng-href="{{path[0].url}}">{{path[0].name}}</a>!
+        Ended up on <a ng-href="{{path[path.length-1].url}}">{{path[path.length-1].name}}</a> without any links!</span>
+    </div>
+  </div>
+
   <table class="table table-striped table-hover result">
     <tr>
       <th>Word</th>
       <th>Url</th>
     </tr>
-    <tr ng-repeat="page in path" ng-class="{philosophy:'success', circle:'warning', '':'info'}[page.type]">
+    <tr ng-repeat="page in path"
+        ng-class="{philosophy:'success', circle:'warning', '':'info', last:'danger'}[page.type]">
       <td>{{page.name}}</td>
       <td><a href="{{page.url}}">{{page.url}}</a></td>
     </tr>
