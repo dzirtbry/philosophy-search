@@ -1,12 +1,14 @@
 import os
+import re
 import json
 import cherrypy
 
 from lxml import html
-from urllib2 import urlopen
+from urllib2 import urlopen, unquote
 
 WIKI_ROOT = 'https://en.wikipedia.org'
 
+ROOT_PATTERN = re.compile('https?://.+\.wikipedia\.org', re.IGNORECASE)
 
 class StringGenerator(object):
     @cherrypy.expose
@@ -14,19 +16,47 @@ class StringGenerator(object):
         return open('static/index.html')
 
 
-class StringGeneratorWebService(object):
+class UrlTracerWebService(object):
     exposed = True
 
     def find_next_word(self, url):
+        root = ROOT_PATTERN.search(url).group()
         tree = html.parse(urlopen(url))
-        xpath = tree.xpath('//*[@id="mw-content-text"]/p/a[starts-with(@href, "/wiki")]')
-        page_name = xpath[0].text
-        page_url = WIKI_ROOT + xpath[0].attrib['href']
+        wiki_links = tree.xpath('//*[@id="mw-content-text"]/p/a[starts-with(@href, "/wiki")]')
+        if len(wiki_links) == 0:
+            return "Dead End", ""
+
+        page_name = wiki_links[0].attrib['title']
+        page_url = root + wiki_links[0].attrib['href']
         return page_name, page_url
 
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, url=""):
         next_word, next_url = self.find_next_word(url)
+        return json.dumps({"name": next_word, "url": next_url})
+
+
+class PhilosophyUrlWebService(object):
+    exposed = True
+
+    LANG_PATTERN = re.compile("https?://(.+)\.wikipedia\.org")
+
+    def find_philosophy(self, lang):
+        if lang == 'en':
+            return "Philosophy", WIKI_ROOT + "/wiki/Philosophy"
+        filename_or_url = urlopen(WIKI_ROOT + "/wiki/Philosophy")
+        tree = html.parse(filename_or_url)
+        wiki_links = tree.xpath('//*[@id="p-lang"]/div/ul/li/a[@lang="'+lang+'"]')
+        if len(wiki_links) == 0:
+            return "No philosophy in this language", ""
+
+        page_url = wiki_links[0].attrib['href']
+        page_name = unquote(page_url).split("/")[-1]
+        return page_name, page_url
+
+    @cherrypy.tools.accept(media='text/plain')
+    def GET(self, lang=""):
+        next_word, next_url = self.find_philosophy(lang)
         return json.dumps({"name": next_word, "url": next_url})
 
 
@@ -45,11 +75,17 @@ if __name__ == '__main__':
             'tools.response_headers.on': True,
             'tools.response_headers.headers': [('Content-Type', 'application/json')],
         },
+        '/wiki/philosophy': {
+            'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+            'tools.response_headers.on': True,
+            'tools.response_headers.headers': [('Content-Type', 'application/json')],
+        },
         '/static': {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': './static'
         }
     }
     webapp = StringGenerator()
-    webapp.wiki = StringGeneratorWebService()
+    webapp.wiki = UrlTracerWebService()
+    webapp.wiki.philosophy = PhilosophyUrlWebService()
     cherrypy.quickstart(webapp, '/', conf)

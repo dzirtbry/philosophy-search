@@ -17,6 +17,10 @@ table.result th {
     text-align: center;
 }
 
+a {
+    color: rgb(218, 155, 73);
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -71,6 +75,12 @@ table.result th:nth-child(2) {
 
 .marketing p + h4 {
     margin-top: 28px;
+}
+
+.animate-show.ng-hide-add.ng-hide-add-active,
+.animate-show.ng-hide-remove.ng-hide-remove-active {
+    -webkit-transition: all linear 0.2s;
+    transition: all linear 0.2s;
 }
 
 /* Responsive: Portrait tablets and up */
