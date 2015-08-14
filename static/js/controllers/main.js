@@ -14,13 +14,11 @@ angular.module('philosophySearchApp')
     };
     $scope.path = [];
     $scope.finishUrl = "https://en.wikipedia.org/wiki/Philosophy";
-    $scope.finished = false;
     $scope.tracing = false;
 
 
     $scope.trace = function () {
       $scope.path = [];
-      $scope.finished = false;
       $scope.tracing = true;
       var word = $scope.input.url.slice($scope.input.url.lastIndexOf('/') + 1);
 
@@ -32,30 +30,27 @@ angular.module('philosophySearchApp')
       }).success(function (data) {
         console.log(data);
         $scope.finishUrl = data.url;
-        $scope.tracePath(decodeURIComponent(word), $scope.input.url, $scope.path)
+        $scope.tracePath(word, $scope.input.url, $scope.path)
       });
     };
 
     $scope.tracePath = function (name, url, path) {
-      var page = {name: name, url: url, type: ''};
+      var page = {name: decodeURIComponent(name), url: decodeURIComponent(url), type: ''};
       path.push(page);
 
       if (url.toLowerCase() === $scope.finishUrl.toLowerCase()) {
-        $scope.finished = true;
         $scope.tracing = false;
         page.type = 'philosophy';
       } else if (this.hasDuplicates(path)) {
-        $scope.finished = true;
         $scope.tracing = false;
         path.map(function (element) {
-          if (url.toLowerCase() === element.url.toLowerCase()) {
+          if (page.url.toLowerCase() === element.url.toLowerCase()) {
             element.type = 'circle';
           }
         });
         page.type = 'circle';
       } else if (url.length == 0) {
         page.type = 'last';
-        $scope.finished = true;
         $scope.tracing = false;
       } else {
         $http({
