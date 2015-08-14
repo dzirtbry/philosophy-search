@@ -4,7 +4,7 @@ import json
 import cherrypy
 
 from lxml import html
-from urllib2 import urlopen, unquote
+from urllib2 import urlopen, unquote, HTTPError
 
 WIKI_ROOT = 'https://en.wikipedia.org'
 
@@ -21,7 +21,10 @@ class UrlTracerWebService(object):
 
     def find_next_word(self, url):
         root = ROOT_PATTERN.search(url).group()
-        tree = html.parse(urlopen(url))
+        try:
+            tree = html.parse(urlopen(url))
+        except HTTPError:
+            return "No such page", ""
         wiki_links = tree.xpath('//*[@id="mw-content-text"]/p/a[starts-with(@href, "/wiki")]')
         if len(wiki_links) == 0:
             return "Dead End", ""
