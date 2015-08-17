@@ -2,6 +2,7 @@ angular.module('philosophySearchApp', [])
   .factory('wiki', ['$http', function ($http) {
     var wikiService = {
       getPhilosophyPage: function (lang) {
+        ga('send', 'event', 'service', 'philosophy', lang);
         return $http({
           url: "/wiki/philosophy",
           method: "GET",
@@ -10,6 +11,7 @@ angular.module('philosophySearchApp', [])
       },
 
       getNextPage: function (url) {
+        ga('send', 'event', 'service', 'nextPage', url);
         return $http({
           url: "/wiki",
           method: "GET",

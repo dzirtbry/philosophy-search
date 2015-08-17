@@ -47,12 +47,13 @@ angular.module('philosophySearchApp')
       console.log(data.message);
     }
 
-    function analyzeData(data, path) {
+    function analyzeResponse(data, path) {
       var page = {name: decodeURIComponent(data.name), url: decodeURIComponent(data.url), type: ''};
 
       if (page.url.length == 0) {
         path[path.length - 1].type = 'last';
         handleError({message: page.name});
+        ga('send', 'event', 'trace', 'finish', 'last');
         return null;
       }
 
@@ -60,11 +61,13 @@ angular.module('philosophySearchApp')
         if (element.url == page.url) {
           element.type = 'circle';
           page.type = 'circle';
+          ga('send', 'event', 'trace', 'finish', 'circle');
         }
       });
 
       if (page.url.toLowerCase() === $scope.target.url.toLowerCase()) {
         page.type = 'target';
+        ga('send', 'event', 'trace', 'finish', 'target');
       }
       return page;
     }
@@ -79,7 +82,7 @@ angular.module('philosophySearchApp')
 
       wiki.getNextPage(currentPage.url).success(function (data) {
         console.log(data);
-        var nextPage = analyzeData(data, path);
+        var nextPage = analyzeResponse(data, path);
         if (nextPage != undefined && nextPage != null) {
           path.push(nextPage);
         }
@@ -88,6 +91,7 @@ angular.module('philosophySearchApp')
     }
 
     $scope.trace = function () {
+      ga('send', 'event', 'trace', 'start', $scope.input.url, 1);
       reset();
       $scope.tracing = true;
 
