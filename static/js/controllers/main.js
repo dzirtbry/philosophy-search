@@ -9,15 +9,15 @@
  */
 angular.module('philosophySearchApp')
   .controller('MainCtrl', ['$scope', 'wiki', function ($scope, wiki) {
+    $scope.path = [];
+    $scope.tracing = false;
     $scope.input = {
       url: "https://en.wikipedia.org/wiki/Anarchy"
     };
-    $scope.path = [];
     $scope.target = {
       name: 'Philosophy',
       url: "https://en.wikipedia.org/wiki/Philosophy"
     };
-    $scope.tracing = false;
     $scope.error = {
       on: false,
       message: ''
