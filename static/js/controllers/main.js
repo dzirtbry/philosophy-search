@@ -9,6 +9,7 @@
  */
 angular.module('philosophySearchApp')
   .controller('MainCtrl', ['$scope', 'wiki', function ($scope, wiki) {
+    const wikiPattern = "https?://([a-z]+)\.wikipedia.org";
     $scope.path = [];
     $scope.tracing = false;
     $scope.input = {
@@ -32,8 +33,13 @@ angular.module('philosophySearchApp')
       };
     }
 
+    function validateUrl(url) {
+      const match = url.match(wikiPattern);
+      return match != null && match.length >= 2;
+    }
+
     function extractLanguage(url) {
-      return url.match("https?://([a-z]+)\.wikipedia.org")[1];
+      return url.match(wikiPattern)[1];
     }
 
     function extractWord(url) {
@@ -89,10 +95,16 @@ angular.module('philosophySearchApp')
       }).error(handleError);
     }
 
+
     $scope.trace = function () {
       ga('send', 'event', 'trace', 'start', $scope.input.url, 1);
       reset();
       $scope.tracing = true;
+
+      if (!validateUrl($scope.input.url)) {
+        handleError({message: "Invalid url"});
+        return;
+      }
 
       var url = $scope.input.url;
       var word = extractWord(url);
