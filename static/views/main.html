@@ -2,7 +2,8 @@
   <h1>Getting to Philosophy</h1>
 
   <div class="lead animate-show" ng-show="!tracing && path.length == 0">
-    There is a known <a href="https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy" target="_blank">idea</a> that if you
+    There is a known <a href="https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy" target="_blank">idea</a>
+    that if you
     recursively follow the first link on the Wiki page - you will end up on Philosophy after a while. <br>
     Lets check that!
   </div>
@@ -11,7 +12,8 @@
     <div class="form-group">
       <div class="input-group">
         <span class="input-group-addon">Url: </span>
-        <input type="url" name="url" class="form-control" ng-model="input.url" required placeholder="Wiki url" key-enter="trace()">
+        <input type="url" name="url" class="form-control" ng-model="input.url" required placeholder="Wiki url"
+               key-enter="trace()">
         <span class="input-group-btn">
           <button class="btn btn-success" type="button" ng-click="trace()" ng-disabled="!form.url.$valid">Trace!
           </button>
@@ -20,19 +22,19 @@
     </div>
   </form>
 
-  <div class="animate-show" ng-show="!tracing">
+  <div ng-show="!tracing">
     <div ng-show="path[path.length-1].type == 'target'">
-      <span>Reached <a ng-href="{{finishUrl}}">{{path[path.length-1].name}}</a>
+      <span>Reached <a ng-href="{{target.url}}">{{path[path.length-1].name}}</a>
         from <a ng-href="{{path[0].url}}">{{path[0].name}}</a> in {{path.length}} hops!</span>
     </div>
     <div ng-show="path[path.length-1].type == 'circle'">
-      <span>Could not reach <a ng-href="{{finishUrl}}">Philosophy</a> from <a
+      <span>Could not reach <a ng-href="{{target.url}}">{{target.name}}</a> from <a
           ng-href="{{path[0].url}}">{{path[0].name}}</a>!
         Detected circular dependency on <a
             ng-href="{{path[path.length-1].url}}">{{path[path.length-1].name}}</a>.</span>
     </div>
     <div ng-show="path[path.length-1].type == 'last'">
-      <span>Could not reach <a ng-href="{{finishUrl}}">Philosophy</a> from <a
+      <span>Could not reach <a ng-href="{{target.url}}">{{target.name}}</a> from <a
           ng-href="{{path[0].url}}">{{path[0].name}}</a>!
         Page <a ng-href="{{path[path.length-2].url}}">{{path[path.length-2].name}}</a> doesn't have any links!</span>
     </div>
@@ -49,12 +51,13 @@
       <td>{{page.name}}</td>
       <td><a href="{{page.url}}" target="_blank">{{page.url}}</a></td>
     </tr>
-    <tr ng-show="tracing">
+    <tr ng-show="tracing || error.on">
       <td colspan="2" style="padding: 0; border: 0">
         <div class="progress-bar progress-bar-striped active progress-bar-info" role="progressbar"
+             ng-class="error.on ? 'progress-bar-danger': 'active progress-bar-info'"
              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%"
-             >
-          Tracing...
+            >
+          {{error.on ? error.message : 'Tracing...' }}
         </div>
       </td>
     </tr>

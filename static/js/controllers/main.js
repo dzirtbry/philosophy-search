@@ -13,12 +13,23 @@ angular.module('philosophySearchApp')
       url: "https://en.wikipedia.org/wiki/Anarchy"
     };
     $scope.path = [];
-    $scope.finishUrl = "https://en.wikipedia.org/wiki/Philosophy";
+    $scope.target = {
+      name: 'Philosophy',
+      url: "https://en.wikipedia.org/wiki/Philosophy"
+    };
     $scope.tracing = false;
+    $scope.error = {
+      on: false,
+      message: ''
+    };
 
     function reset() {
       $scope.path = [];
       $scope.tracing = false;
+      $scope.error = {
+        on: false,
+        message: ''
+      };
     }
 
     function extractLanguage(url) {
@@ -31,14 +42,18 @@ angular.module('philosophySearchApp')
 
     function handleError(data, status, xhr) {
       $scope.tracing = false;
-      console.log(data, status, xhr);
+      $scope.error.on = true;
+      $scope.error.message = data.message;
+      console.log(data.message);
     }
 
     function analyzeData(data, path) {
       var page = {name: decodeURIComponent(data.name), url: decodeURIComponent(data.url), type: ''};
 
       if (page.url.length == 0) {
-        page.type = 'last';
+        path[path.length - 1].type = 'last';
+        handleError({message: page.name});
+        return null;
       }
 
       path.map(function (element) {
@@ -48,7 +63,7 @@ angular.module('philosophySearchApp')
         }
       });
 
-      if (page.url.toLowerCase() === $scope.finishUrl.toLowerCase()) {
+      if (page.url.toLowerCase() === $scope.target.url.toLowerCase()) {
         page.type = 'target';
       }
       return page;
@@ -65,7 +80,9 @@ angular.module('philosophySearchApp')
       wiki.getNextPage(currentPage.url).success(function (data) {
         console.log(data);
         var nextPage = analyzeData(data, path);
-        path.push(nextPage);
+        if (nextPage != undefined && nextPage != null) {
+          path.push(nextPage);
+        }
         tracePath(path);
       }).error(handleError);
     }
@@ -78,10 +95,12 @@ angular.module('philosophySearchApp')
       var word = extractWord(url);
       var lang = extractLanguage(url);
       var page = {name: decodeURI(word), url: decodeURI(url), type: ''};
+      $scope.input.url = decodeURI(url);
       $scope.path.push(page);
       wiki.getPhilosophyPage(lang).success(function (data) {
         console.log(data);
-        $scope.finishUrl = decodeURI(data.url);
+        $scope.target.name = decodeURI(data.name);
+        $scope.target.url = decodeURI(data.url);
         tracePath($scope.path)
       }).error(handleError);
     };

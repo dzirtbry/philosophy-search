@@ -67,9 +67,15 @@ class PhilosophyUrlWebService(object):
         return json.dumps({"name": next_word, "url": next_url})
 
 
+def jsonify_error(status, message, traceback, version):
+    response = cherrypy.response
+    response.headers['Content-Type'] = 'application/json'
+    return json.dumps({'status': status, 'message': message})
+
 if __name__ == '__main__':
     conf = {
         'global': {
+            'error_page.default': jsonify_error,
             'server.socket_host': '0.0.0.0',
             'server.socket_port': int(os.environ.get('PORT', '5000'))
         },
