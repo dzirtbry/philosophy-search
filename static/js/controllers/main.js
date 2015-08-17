@@ -9,7 +9,7 @@
  */
 angular.module('philosophySearchApp')
   .controller('MainCtrl', ['$scope', 'wiki', function ($scope, wiki) {
-    const wikiPattern = "https?://([a-z]+)\.wikipedia.org";
+    var wikiPattern = "https?://([a-z]+)\.wikipedia.org";
     $scope.path = [];
     $scope.tracing = false;
     $scope.input = {
@@ -34,7 +34,7 @@ angular.module('philosophySearchApp')
     }
 
     function validateUrl(url) {
-      const match = url.match(wikiPattern);
+      var match = url.match(wikiPattern);
       return match != null && match.length >= 2;
     }
 
@@ -59,7 +59,7 @@ angular.module('philosophySearchApp')
         path[path.length - 1].type = 'last';
         handleError({message: page.name});
         ga('send', 'event', 'trace', 'finish', 'last');
-        ga('send', 'event', 'trace', 'hops', path[0].name + '' + path.length);
+        ga('send', 'event', 'trace', 'hops', '' + path.length);
         return null;
       }
 
