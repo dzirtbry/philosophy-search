@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <h1>Getting to Philosophy</h1>
 
-  <div class="lead animate-show" ng-show="!tracing && path.length == 0">
+  <div class="lead" ng-show="!tracing && path.length == 0">
     There is a known <a href="https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy" target="_blank">idea</a>
     that if you recursively follow the first link on the Wiki page - you will end up on
     <a ng-href="{{target.url}}">{{target.name}}</a> after a while. <br>
@@ -22,7 +22,7 @@
     </div>
   </form>
 
-  <div ng-show="!tracing">
+  <div ng-show="!tracing" class="result-text">
     <div ng-show="path[path.length-1].type == 'target'">
       <span>Reached <a ng-href="{{target.url}}">{{path[path.length-1].name}}</a>
         from <a ng-href="{{path[0].url}}">{{path[0].name}}</a> in {{path.length}} hops!</span>
