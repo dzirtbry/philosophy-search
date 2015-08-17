@@ -53,6 +53,7 @@ angular.module('philosophySearchApp')
         path[path.length - 1].type = 'last';
         handleError({message: page.name});
         ga('send', 'event', 'trace', 'finish', 'last');
+        ga('send', 'event', 'trace', 'hops', path[0].name + '' + path.length);
         return null;
       }
 
