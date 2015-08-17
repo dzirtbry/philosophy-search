@@ -29,49 +29,61 @@ angular.module('philosophySearchApp')
       return url.slice($scope.input.url.lastIndexOf('/') + 1);
     }
 
-    function hasDuplicates(array) {
-      var urlSet = new Set(array.map(function (t) {
-        return t.url
-      }));
-      return urlSet.size != array.length;
+    function handleError(data, status, xhr) {
+      $scope.tracing = false;
+      console.log(data, status, xhr);
     }
 
-    function tracePath(name, url, path) {
-      var page = {name: decodeURIComponent(name), url: decodeURIComponent(url), type: ''};
-      path.push(page);
+    function analyzeData(data, path) {
+      var page = {name: decodeURIComponent(data.name), url: decodeURIComponent(data.url), type: ''};
 
-      if (url.toLowerCase() === $scope.finishUrl.toLowerCase()) {
-        $scope.tracing = false;
-        page.type = 'target';
-      } else if (hasDuplicates(path)) {
-        $scope.tracing = false;
-        path.map(function (element) {
-          if (page.url.toLowerCase() === element.url.toLowerCase()) {
-            element.type = 'circle';
-          }
-        });
-        page.type = 'circle';
-      } else if (url.length == 0) {
+      if (page.url.length == 0) {
         page.type = 'last';
-        $scope.tracing = false;
-      } else {
-        wiki.getNextPage(url).success(function (data) {
-          console.log(data);
-          tracePath(data.name, data.url, path);
-        });
       }
+
+      path.map(function (element) {
+        if (element.url == page.url) {
+          element.type = 'circle';
+          page.type = 'circle';
+        }
+      });
+
+      if (page.url.toLowerCase() === $scope.finishUrl.toLowerCase()) {
+        page.type = 'target';
+      }
+      return page;
+    }
+
+    function tracePath(path) {
+      var currentPage = path[path.length - 1];
+
+      if (currentPage.type != '') {
+        $scope.tracing = false;
+        return;
+      }
+
+      wiki.getNextPage(currentPage.url).success(function (data) {
+        console.log(data);
+        var nextPage = analyzeData(data, path);
+        path.push(nextPage);
+        tracePath(path);
+      }).error(handleError);
     }
 
     $scope.trace = function () {
       reset();
       $scope.tracing = true;
-      var word = extractWord($scope.input.url);
-      var lang = extractLanguage($scope.input.url);
+
+      var url = $scope.input.url;
+      var word = extractWord(url);
+      var lang = extractLanguage(url);
+      var page = {name: decodeURI(word), url: decodeURI(url), type: ''};
+      $scope.path.push(page);
       wiki.getPhilosophyPage(lang).success(function (data) {
         console.log(data);
-        $scope.finishUrl = data.url;
-        tracePath(word, $scope.input.url, $scope.path)
-      });
+        $scope.finishUrl = decodeURI(data.url);
+        tracePath($scope.path)
+      }).error(handleError);
     };
 
   }]

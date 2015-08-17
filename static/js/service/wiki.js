@@ -13,7 +13,7 @@ angular.module('philosophySearchApp', [])
         return $http({
           url: "/wiki",
           method: "GET",
-          params: {"url": url}
+          params: {"url": encodeURI(url)}
         });
       }
     };

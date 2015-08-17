@@ -1,1 +1,1 @@
-Sample Dead End: https://en.wikipedia.org/wiki/Academy_of_Criminal_Justice_Sciences
+Sample Dead Ends: https://en.wikipedia.org/wiki/Wikipedia:Dead-end_pages

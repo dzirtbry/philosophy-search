@@ -47,7 +47,7 @@
     <tr ng-repeat="page in path"
         ng-class="{target:'success', circle:'warning', '':'info', last:'danger'}[page.type]">
       <td>{{page.name}}</td>
-      <td><a href="{{page.url}}">{{page.url}}</a></td>
+      <td><a href="{{page.url}}" target="_blank">{{page.url}}</a></td>
     </tr>
     <tr ng-show="tracing">
       <td colspan="2" style="padding: 0; border: 0">

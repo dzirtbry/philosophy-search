@@ -8,12 +8,10 @@ from urllib2 import urlopen, unquote, HTTPError
 
 WIKI_ROOT = 'https://en.wikipedia.org'
 
-ROOT_PATTERN = re.compile('https?://.+\.wikipedia\.org', re.IGNORECASE)
-
 philosophy_cache = {}
 
 
-class StringGenerator(object):
+class StaticService(object):
     @cherrypy.expose
     def index(self):
         return open('static/index.html')
@@ -21,13 +19,14 @@ class StringGenerator(object):
 
 class UrlTracerWebService(object):
     exposed = True
+    ROOT_PATTERN = re.compile('https?://.+\.wikipedia\.org', re.IGNORECASE)
 
     def find_next_word(self, url):
-        root = ROOT_PATTERN.search(url).group()
+        root = self.ROOT_PATTERN.search(url).group()
         try:
             tree = html.parse(urlopen(url))
         except HTTPError:
-            return "No such page", ""
+            raise cherrypy.HTTPError(400, "No such page")
         wiki_links = tree.xpath('//*[@id="mw-content-text"]/p/a[starts-with(@href, "/wiki")]')
         if len(wiki_links) == 0:
             return "Dead End", ""
@@ -45,8 +44,6 @@ class UrlTracerWebService(object):
 class PhilosophyUrlWebService(object):
     exposed = True
 
-    LANG_PATTERN = re.compile("https?://(.+)\.wikipedia\.org")
-
     def find_philosophy(self, lang):
         if lang == 'en':
             return "Philosophy", WIKI_ROOT + "/wiki/Philosophy"
@@ -57,7 +54,7 @@ class PhilosophyUrlWebService(object):
         tree = html.parse(filename_or_url)
         wiki_links = tree.xpath('//*[@id="p-lang"]/div/ul/li/a[@lang="' + lang + '"]')
         if len(wiki_links) == 0:
-            return "No philosophy in this language", ""
+            raise cherrypy.HTTPError(400, "No philosophy in this language")
 
         page_url = 'https:' + wiki_links[0].attrib['href']
         page_name = unquote(page_url).split("/")[-1]
@@ -95,7 +92,7 @@ if __name__ == '__main__':
             'tools.staticdir.dir': './static'
         }
     }
-    webapp = StringGenerator()
+    webapp = StaticService()
     webapp.wiki = UrlTracerWebService()
     webapp.wiki.philosophy = PhilosophyUrlWebService()
     cherrypy.quickstart(webapp, '/', conf)
