@@ -3,9 +3,9 @@
 
   <div class="lead animate-show" ng-show="!tracing && path.length == 0">
     There is a known <a href="https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy" target="_blank">idea</a>
-    that if you
-    recursively follow the first link on the Wiki page - you will end up on Philosophy after a while. <br>
-    Lets check that!
+    that if you recursively follow the first link on the Wiki page - you will end up on
+    <a ng-href="{{target.url}}">{{target.name}}</a> after a while. <br>
+    Check that!
   </div>
 
   <form name="form">
@@ -49,7 +49,7 @@
     <tr ng-repeat="page in path"
         ng-class="{target:'success', circle:'warning', '':'info', last:'danger'}[page.type]">
       <td>{{page.name}}</td>
-      <td><a href="{{page.url}}" target="_blank">{{page.url}}</a></td>
+      <td><a ng-href="{{page.url}}" target="_blank">{{page.url}}</a></td>
     </tr>
     <tr ng-show="tracing || error.on">
       <td colspan="2" style="padding: 0; border: 0">
