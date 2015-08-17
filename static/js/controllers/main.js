@@ -44,7 +44,6 @@ angular.module('philosophySearchApp')
       $scope.tracing = false;
       $scope.error.on = true;
       $scope.error.message = data.message;
-      console.log(data.message);
     }
 
     function analyzeResponse(data, path) {
@@ -81,7 +80,6 @@ angular.module('philosophySearchApp')
       }
 
       wiki.getNextPage(currentPage.url).success(function (data) {
-        console.log(data);
         var nextPage = analyzeResponse(data, path);
         if (nextPage != undefined && nextPage != null) {
           path.push(nextPage);
@@ -102,7 +100,6 @@ angular.module('philosophySearchApp')
       $scope.input.url = decodeURI(url);
       $scope.path.push(page);
       wiki.getPhilosophyPage(lang).success(function (data) {
-        console.log(data);
         $scope.target.name = decodeURI(data.name);
         $scope.target.url = decodeURI(data.url);
         tracePath($scope.path)
