@@ -1,5 +1,5 @@
 angular.module('philosophySearchApp', [])
-  .factory('wiki', function ($http) {
+  .factory('wiki', ['$http', function ($http) {
     var wikiService = {
       getPhilosophyPage: function (lang) {
         return $http({
@@ -18,5 +18,5 @@ angular.module('philosophySearchApp', [])
       }
     };
     return wikiService;
-  }
+  }]
 );

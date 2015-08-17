@@ -8,7 +8,7 @@
  * Controller of the philosopySearchApp
  */
 angular.module('philosophySearchApp')
-  .controller('MainCtrl', function ($scope, $http, wiki) {
+  .controller('MainCtrl', ['$scope', 'wiki', function ($scope, wiki) {
     $scope.input = {
       url: "https://en.wikipedia.org/wiki/Anarchy"
     };
@@ -74,4 +74,5 @@ angular.module('philosophySearchApp')
       });
     };
 
-  });
+  }]
+);
