@@ -42,7 +42,7 @@ angular.module('philosophySearchApp')
 
       if (url.toLowerCase() === $scope.finishUrl.toLowerCase()) {
         $scope.tracing = false;
-        page.type = 'philosophy';
+        page.type = 'target';
       } else if (hasDuplicates(path)) {
         $scope.tracing = false;
         path.map(function (element) {

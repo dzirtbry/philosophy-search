@@ -22,7 +22,7 @@
   </form>
 
   <div class="animate-show" ng-show="!tracing">
-    <div ng-show="path[path.length-1].type == 'philosophy'">
+    <div ng-show="path[path.length-1].type == 'target'">
       <span>Reached <a ng-href="{{finishUrl}}">{{path[path.length-1].name}}</a>
         from <a ng-href="{{path[0].url}}">{{path[0].name}}</a> in {{path.length}} hops!</span>
     </div>
@@ -46,7 +46,7 @@
       <th>Url</th>
     </tr>
     <tr ng-repeat="page in path"
-        ng-class="{philosophy:'success', circle:'warning', '':'info', last:'danger'}[page.type]">
+        ng-class="{target:'success', circle:'warning', '':'info', last:'danger'}[page.type]">
       <td>{{page.name}}</td>
       <td><a href="{{page.url}}">{{page.url}}</a></td>
     </tr>
