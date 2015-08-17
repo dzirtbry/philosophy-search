@@ -10,6 +10,9 @@ WIKI_ROOT = 'https://en.wikipedia.org'
 
 ROOT_PATTERN = re.compile('https?://.+\.wikipedia\.org', re.IGNORECASE)
 
+philosophy_cache = {}
+
+
 class StringGenerator(object):
     @cherrypy.expose
     def index(self):
@@ -47,14 +50,18 @@ class PhilosophyUrlWebService(object):
     def find_philosophy(self, lang):
         if lang == 'en':
             return "Philosophy", WIKI_ROOT + "/wiki/Philosophy"
+        if lang in philosophy_cache:
+            return philosophy_cache[lang]['name'], philosophy_cache[lang]['url']
+
         filename_or_url = urlopen(WIKI_ROOT + "/wiki/Philosophy")
         tree = html.parse(filename_or_url)
-        wiki_links = tree.xpath('//*[@id="p-lang"]/div/ul/li/a[@lang="'+lang+'"]')
+        wiki_links = tree.xpath('//*[@id="p-lang"]/div/ul/li/a[@lang="' + lang + '"]')
         if len(wiki_links) == 0:
             return "No philosophy in this language", ""
 
         page_url = wiki_links[0].attrib['href']
         page_name = unquote(page_url).split("/")[-1]
+        philosophy_cache[lang] = {'name': page_name, 'url': page_url}
         return page_name, page_url
 
     @cherrypy.tools.accept(media='text/plain')
