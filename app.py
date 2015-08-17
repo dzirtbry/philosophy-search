@@ -59,7 +59,7 @@ class PhilosophyUrlWebService(object):
         if len(wiki_links) == 0:
             return "No philosophy in this language", ""
 
-        page_url = wiki_links[0].attrib['href']
+        page_url = 'https:' + wiki_links[0].attrib['href']
         page_name = unquote(page_url).split("/")[-1]
         philosophy_cache[lang] = {'name': page_name, 'url': page_url}
         return page_name, page_url
