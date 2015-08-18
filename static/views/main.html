@@ -13,7 +13,7 @@
       <div class="input-group">
         <span class="input-group-addon">Url: </span>
         <input type="url" name="url" class="form-control" ng-model="input.url" required placeholder="Wiki url"
-               key-enter="trace()">
+               key-enter="!form.url.$valid ? '' : trace()">
         <span class="input-group-btn">
           <button class="btn btn-success" type="button" ng-click="trace()" ng-disabled="!form.url.$valid">Trace!
           </button>
