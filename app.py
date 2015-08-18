@@ -27,7 +27,8 @@ class UrlTracerWebService(object):
             tree = html.parse(urlopen(url))
         except HTTPError:
             raise cherrypy.HTTPError(400, "No such page")
-        wiki_links = tree.xpath('//*[@id="mw-content-text"]/p/a[starts-with(@href, "/wiki")]')
+        wiki_links = tree.xpath('//*[@id="mw-content-text"]/p/a[starts-with(@href, "/wiki")] '
+                                '| //*[@id="mw-content-text"]/ul/li/a[starts-with(@href, "/wiki")]')
         if len(wiki_links) == 0:
             return "Dead End", ""
 
