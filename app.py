@@ -38,7 +38,7 @@ class UrlTracerWebService(object):
 
         page_name = wiki_links[0].attrib['title']
         page_url = root + wiki_links[0].attrib['href']
-        logging.info(url + " continues to " + (page_name, page_url))
+        logging.info(url + " continues to " + page_name + " - " + page_url)
         return page_name, page_url
 
     @cherrypy.tools.accept(media='text/plain')
