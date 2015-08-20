@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import logging
 import cherrypy
 
 from lxml import html
@@ -22,18 +23,22 @@ class UrlTracerWebService(object):
     ROOT_PATTERN = re.compile('https?://.+\.wikipedia\.org', re.IGNORECASE)
 
     def find_next_word(self, url):
+
         root = self.ROOT_PATTERN.search(url).group()
         try:
             tree = html.parse(urlopen(url))
         except HTTPError:
+            logging.warn("Can't find page at " + url)
             raise cherrypy.HTTPError(400, "No such page")
         wiki_links = tree.xpath('//*[@id="mw-content-text"]/p/a[starts-with(@href, "/wiki")] '
                                 '| //*[@id="mw-content-text"]/ul/li/a[starts-with(@href, "/wiki")]')
         if len(wiki_links) == 0:
+            logging.info(url + " ia a dead end")
             return "Dead End", ""
 
         page_name = wiki_links[0].attrib['title']
         page_url = root + wiki_links[0].attrib['href']
+        logging.info(url + " continues to " + (page_name, page_url))
         return page_name, page_url
 
     @cherrypy.tools.accept(media='text/plain')
@@ -72,6 +77,7 @@ def jsonify_error(status, message, traceback, version):
     response = cherrypy.response
     response.headers['Content-Type'] = 'application/json'
     return json.dumps({'status': status, 'message': message})
+
 
 if __name__ == '__main__':
     conf = {

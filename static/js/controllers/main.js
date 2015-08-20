@@ -31,6 +31,10 @@ angular.module('philosophySearchApp')
         on: false,
         message: ''
       };
+      $scope.target = {
+        name: 'Philosophy',
+        url: "https://en.wikipedia.org/wiki/Philosophy"
+      };
     }
 
     function validateUrl(url) {
