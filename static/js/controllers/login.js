@@ -6,7 +6,7 @@ angular.module('philosophySearchApp')
     console.log("LoginCtrl inited");
 
     $scope.model = {
-      loggedIn: false,
+      isLoggedIn: false,
       userName: ''
     };
 
@@ -17,12 +17,12 @@ angular.module('philosophySearchApp')
         }, function () {
           console.log("Login call failed");
         });
-      $scope.model.loggedIn = true;
+      $scope.model.isLoggedIn = true;
       $scope.model.userName = "dzirtbry";
     };
 
     $scope.logout = function () {
-      $scope.model.loggedIn = false;
+      $scope.model.isLoggedIn = false;
       $scope.model.userName = '';
     };
 

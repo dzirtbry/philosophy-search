@@ -3,16 +3,16 @@
   <div class=" jumbotron">
     <form class="form-signin">
       <h1 class="form-signin-heading text-muted">Sign Up</h1>
-      <input type="text" class="form-control" placeholder="Email address" required="" autofocus="">
-      <input type="password" class="form-control" placeholder="Password" required="">
-      <input type="password" class="form-control" placeholder="Password confirmation" required="">
+      <input type="text" class="form-control" placeholder="Email address" required="" autofocus="" ng-model="model.email">
+      <input type="password" class="form-control" placeholder="Password" required="" ng-model="model.password">
+      <input type="password" class="form-control" placeholder="Password confirmation" required="" ng-model="model.passwordConfirmation">
       <a class="btn btn-block btn-social btn-facebook">
         <i class="fa fa-facebook"></i>Sign up with Facebook
       </a>
       <a class="btn btn-block btn-social btn-twitter">
         <i class="fa fa-twitter"></i> Sign up with Twitter
       </a>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
+      <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="register()">
         Sign up
       </button>
     </form>

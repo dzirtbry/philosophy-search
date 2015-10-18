@@ -6,7 +6,7 @@ angular.module('philosophySearchApp')
     console.log("HeaderCtrl inited");
 
     $scope.model = {
-      loggedIn: userService.loggedIn(),
+      isLoggedIn: userService.isLoggedIn(),
       userName: userService.userName()
     };
 
