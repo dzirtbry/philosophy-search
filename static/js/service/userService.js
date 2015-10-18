@@ -5,8 +5,15 @@ LOGIN_URL = "/user/login";
 
 angular.module('philosophySearchApp')
   .factory('userService', ['$http', function ($http) {
+
+
     var userService = {
-      login: function(username, password) {
+      model: {
+        loggedIn: false,
+        userName: ''
+      },
+
+      login: function (username, password) {
         return $http({
           url: LOGIN_URL,
           method: "POST",
@@ -15,9 +22,18 @@ angular.module('philosophySearchApp')
             password: password
           }
         });
+      },
+
+      loggedIn: function () {
+        return userService.model.loggedIn;
+      },
+
+      userName: function () {
+        return userService.model.userName;
       }
     };
 
     return userService;
   }]
-);
+)
+;
