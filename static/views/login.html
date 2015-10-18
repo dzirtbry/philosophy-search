@@ -3,9 +3,10 @@
   <div class="jumbotron">
     <form class="form-signin">
       <h1 class="form-signin-heading text-muted">Sign In</h1>
-      <input type="text" class="form-control" placeholder="Email address" required="" autofocus="">
-      <input type="password" class="form-control" placeholder="Password" required="">
-      <button class="btn btn-lg btn-success btn-block" type="submit">
+      <input type="text" class="form-control" placeholder="Email address" required="" autofocus=""
+             ng-model="model.email">
+      <input type="password" class="form-control" placeholder="Password" required="" ng-model="model.password">
+      <button class="btn btn-lg btn-success btn-block" type="submit" ng-click="login()">
         Sign In
       </button>
       <a class="btn btn-block btn-social btn-facebook">

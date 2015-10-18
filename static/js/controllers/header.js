@@ -10,5 +10,12 @@ angular.module('philosophySearchApp')
       userName: userService.userName()
     };
 
+    $scope.logout = function () {
+      userService.logout()
+        .then(function () {
+          $location.path("/login");
+        });
+    }
+
   }]
 );

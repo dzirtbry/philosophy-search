@@ -30,6 +30,13 @@ angular.module('philosophySearchApp')
         });
       },
 
+      logout: function () {
+        // Cleanup cookies
+        return $q(function(resolve, reject) {
+          resolve({});
+        });
+      },
+
       register: function (username, password) {
         return $http({
           url: REGISTER_URL,
