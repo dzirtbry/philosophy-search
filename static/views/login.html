@@ -6,7 +6,7 @@
     margin-bottom: 50px;
   }
 
-  .form-signin .form-signin-heading{
+  .form-signin .form-signin-heading {
     margin-bottom: 10px;
   }
 
@@ -55,17 +55,23 @@
 </style>
 
 <div class="container">
-  <div class=" jumbotron">
+  <div class="jumbotron">
     <form class="form-signin">
       <h1 class="form-signin-heading text-muted">Sign In</h1>
       <input type="text" class="form-control" placeholder="Email address" required="" autofocus="">
       <input type="password" class="form-control" placeholder="Password" required="">
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
+      <button class="btn btn-lg btn-primary btn-block">
         Sign In
       </button>
-      <a href="#/register" class="btn btn-lg btn-success btn-block" >
+      <a class="btn btn-block btn-social btn-facebook">
+        <i class="fa fa-facebook"></i>Sign in with Facebook
+      </a>
+      <a class="btn btn-block btn-social btn-twitter">
+        <i class="fa fa-twitter"></i> Sign in with Twitter
+      </a>
+      <a href="#/register" class="btn btn-lg btn-success btn-block">
         First time? Sign Up!
-      <!--</button>-->
+        <!--</button>-->
       </a>
     </form>
   </div>
