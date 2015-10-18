@@ -1,5 +1,5 @@
-angular.module('philosophySearchApp', [])
-  .factory('wiki', ['$http', function ($http) {
+angular.module('philosophySearchApp')
+  .factory('wikiService', ['$http', function ($http) {
     var wikiService = {
       getPhilosophyPage: function (lang) {
         ga('send', 'event', 'service', 'philosophy', lang);

@@ -21,6 +21,11 @@ a {
     color: rgb(218, 155, 73);
 }
 
+.navbar-default .navbar-nav>li>a.btn-warning:hover {
+    color: #ffffff;
+    background-color: #ce7016;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,

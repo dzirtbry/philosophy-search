@@ -8,7 +8,9 @@
  * Controller of the philosopySearchApp
  */
 angular.module('philosophySearchApp')
-  .controller('MainCtrl', ['$scope', 'wiki', function ($scope, wiki) {
+  .controller('MainCtrl', ['$scope', 'wikiService', function ($scope, wikiService) {
+    console.log("MainCtrl inited");
+
     var wikiPattern = "https?://([a-z]+)\.wikipedia.org";
     $scope.path = [];
     $scope.tracing = false;
@@ -90,7 +92,7 @@ angular.module('philosophySearchApp')
         return;
       }
 
-      wiki.getNextPage(currentPage.url).success(function (data) {
+      wikiService.getNextPage(currentPage.url).success(function (data) {
         var nextPage = analyzeResponse(data, path);
         if (nextPage != undefined && nextPage != null) {
           path.push(nextPage);
@@ -116,7 +118,7 @@ angular.module('philosophySearchApp')
       var page = {name: decodeURI(word), url: decodeURI(url), type: ''};
       $scope.input.url = decodeURI(url);
       $scope.path.push(page);
-      wiki.getPhilosophyPage(lang).success(function (data) {
+      wikiService .getPhilosophyPage(lang).success(function (data) {
         $scope.target.name = decodeURI(data.name);
         $scope.target.url = decodeURI(data.url);
         tracePath($scope.path)
