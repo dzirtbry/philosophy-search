@@ -93,6 +93,24 @@ table.result th:nth-child(2) {
     font-size: larger;
 }
 
+@media screen and (max-width: 767px) {
+    .result .wikiUrl:after {
+        font-weight: bold;
+        content: attr(data-name);
+    }
+
+    .result tr th:first-of-type,
+    .result tr:not(:last-child) td:first-of-type {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .result .wikiUrl:after {
+        content: attr(href);
+    }
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
 

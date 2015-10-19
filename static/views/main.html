@@ -41,7 +41,6 @@
       </div>
     </div>
 
-
     <table class="table table-striped table-hover result">
       <tr>
         <th>Word</th>
@@ -50,7 +49,7 @@
       <tr ng-repeat="page in path"
           ng-class="{target:'success', circle:'warning', '':'info', last:'danger'}[page.type]">
         <td>{{page.name}}</td>
-        <td><a ng-href="{{page.url}}" target="_blank">{{page.url}}</a></td>
+        <td><a ng-href="{{page.url}}" data-name="{{page.name}}" target="_blank" class="wikiUrl"></a></td>
       </tr>
       <tr ng-show="tracing || error.on">
         <td colspan="2" style="padding: 0; border: 0">
