@@ -54,10 +54,7 @@ angular.module('philosophySearchApp')
           $http({
             url: ME_URL,
             method: "GET",
-            withCredential: true,
-            headers: {
-              'Authorization': "Bearer " + tokenStore.load()
-            }
+            withCredential: true
           }).then(function (response) {
             userService.model.isLoggedIn = true;
             userService.model.userName = response.data.email;
@@ -72,16 +69,6 @@ angular.module('philosophySearchApp')
 
       logout: function () {
         // Cleanup cookies and invalidate token
-        //return $http({
-        //  url: TOKEN_URL,
-        //  method: "DELETE",
-        //  withCredential: true,
-        //  headers: {
-        //    'Content-Type': "application/x-www-form-urlencoded",
-        //    'Authorization': "Basic MzUzYjMwMmM0NDU3NGY1NjUwNDU2ODdlNTM0ZTdkNmE6Mjg2OTI0Njk3ZTYxNWE2NzJhNjQ2YTQ5MzU0NTY0NmM="
-        //  },
-        //  data: token
-        //  });
         return $q(function (resolve, reject) {
           userService.model.isLoggedIn = false;
           userService.model.userName = '';

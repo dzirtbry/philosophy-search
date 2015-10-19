@@ -10,7 +10,7 @@ angular.module('philosophySearchApp')
       save: function (token) {
         $cookies.put('access_token', token.access_token);
       },
-      load: function () {
+      get: function () {
         return $cookies.get('access_token');
       },
       remove: function () {

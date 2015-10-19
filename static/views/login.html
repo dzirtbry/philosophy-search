@@ -1,12 +1,12 @@
 <link href="static/css/loginForms.css" rel="stylesheet">
 <div class="container">
   <div class="jumbotron">
-    <form class="form-signin">
+    <form class="form-signin" ng-submit="login()">
       <h1 class="form-signin-heading text-muted">Sign In</h1>
       <input type="text" class="form-control" placeholder="Email address" required="" autofocus=""
              ng-model="model.email">
       <input type="password" class="form-control" placeholder="Password" required="" ng-model="model.password">
-      <button class="btn btn-lg btn-success btn-block" type="submit" ng-click="login()">
+      <button class="btn btn-lg btn-success btn-block" type="submit">
         Sign In
       </button>
       <a class="btn btn-block btn-social btn-facebook">
