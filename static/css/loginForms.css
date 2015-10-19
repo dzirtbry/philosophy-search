@@ -27,7 +27,6 @@
     margin-bottom: -1px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-top-style: solid;
     border-right-style: solid;
     border-bottom-style: none;
     border-left-style: solid;
@@ -38,15 +37,18 @@
     margin-bottom: -1px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    border-top-style: none;
-    border-right-style: solid;
     border-bottom-style: none;
+    border-right-style: solid;
     border-left-style: solid;
     border-color: rgb(0, 0, 0);
     border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.form-signin input[type="password"] + input[type="password"] {
+.form-signin input:first-of-type{
+    border-top-style: solid;
+}
+
+.form-signin input:last-of-type{
     border-bottom-style: solid;
 }
 

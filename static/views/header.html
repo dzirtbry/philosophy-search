@@ -23,16 +23,19 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a class="btn btn-default" data-toggle="collapse"
                  data-target="#bs-example-navbar-collapse-1[aria-expanded=true]"
-                 href="#/history" ng-show="model.loggedIn">Search History</a></li>
+                 href="#/history" ng-show="model.isLoggedIn()">Search History</a></li>
           <li><a class="btn btn-default" data-toggle="collapse"
                  data-target="#bs-example-navbar-collapse-1[aria-expanded=true]"
-                 href="#/me" ng-show="model.loggedIn">{{model.userName}}</a></li>
+                 href="#/me" ng-show="model.isLoggedIn()">{{model.userName()}}</a></li>
           <li><a class="btn btn-warning" data-toggle="collapse"
                  data-target="#bs-example-navbar-collapse-1[aria-expanded=true]"
-                 href="#/login" ng-show="!model.loggedIn" ng-click="login()">Log in</a></li>
-          <li><a class="btn btn-default" data-toggle="collapse"
-                 data-target="#bs-example-navbar-collapse-1[aria-expanded=true]"
-                 href="#/logout" ng-show="model.loggedIn" ng-click="logout()">Logout</a></li>
+                 href="#/login" ng-show="!model.isLoggedIn()" ng-click="login()">Log in</a></li>
+          <li>
+            <a class="btn btn-default" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1[aria-expanded=true]"
+                    ng-show="model.isLoggedIn()" ng-click="logout()">Logout
+            </a>
+          </li>
         </ul>
       </div>
 

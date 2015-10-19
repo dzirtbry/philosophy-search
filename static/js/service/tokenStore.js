@@ -4,12 +4,19 @@
 angular.module('philosophySearchApp')
   .factory('tokenStore', ['$cookies', function ($cookies) {
     var tokenStore = {
-      save: function(token) {
-        
+      isValid: function () {
+        return $cookies.get('access_token') ? true : false;
       },
-      load: function() {
-
+      save: function (token) {
+        $cookies.put('access_token', token.access_token);
+      },
+      load: function () {
+        return $cookies.get('access_token');
+      },
+      remove: function () {
+        $cookies.remove('access_token');
       }
+
     };
     return tokenStore;
   }]
