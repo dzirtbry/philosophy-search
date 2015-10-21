@@ -13,6 +13,9 @@ angular.module('philosophySearchApp')
     };
 
     function validate(model) {
+      if (model.password != model.passwordConfirmation) {
+        return false;
+      }
       // Validate email and password
       return true;
     }

@@ -4,7 +4,7 @@
 
 
 angular.module('philosophySearchApp')
-  .factory('userService', ['userApiClient', 'tokenStore', function (userApiClient, tokenStore) {
+  .factory('userService', ['$q', 'userApiClient', 'tokenStore', function ($q, userApiClient, tokenStore) {
 
     var userService = {
       model: {
@@ -18,20 +18,27 @@ angular.module('philosophySearchApp')
             tokenStore.save(response.data);
             userService.model.isLoggedIn = true;
             userService.model.userName = username;
+            return response;
           }, function (reason) {
             userService.model.isLoggedIn = false;
             userService.model.userName = '';
+            return $q.reject(reason);
           }
         );
       },
 
       me: function () {
+        if (!tokenStore.isValid()) {
+          return $q.reject({data: "No token"});
+        }
         return userApiClient.me().then(function (response) {
           userService.model.isLoggedIn = true;
           userService.model.userName = response.data.email;
+          return response;
         }, function (reason) {
           userService.model.isLoggedIn = false;
           userService.model.userName = '';
+          return reason;
         });
       },
 
