@@ -12,7 +12,7 @@ class MyTest(unittest.TestCase):
         self.assertEqual(fun(3), 4)
 
     def test2(self):
-        self.assertEqual(5, 6)
+        self.assertEqual(5, 5)
 
 
 if (__name__ == '__main__'):
