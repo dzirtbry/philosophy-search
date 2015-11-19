@@ -1,11 +1,18 @@
 <link href="static/css/loginForms.css" rel="stylesheet">
 <div class="container">
   <div class=" jumbotron">
-    <form class="form-signin">
+
+    <!--http://jsfiddle.net/y9ujn/5/-->
+    <!--http://1000hz.github.io/bootstrap-validator/#validator-markup-->
+    <form class="form-signin" novalidate>
       <h1 class="form-signin-heading text-muted">Sign Up</h1>
-      <input type="email" class="form-control" placeholder="Email address" required="" autofocus="" ng-model="model.email">
-      <input type="password" class="form-control" placeholder="Password" required="" ng-model="model.password">
-      <input type="password" class="form-control" placeholder="Password confirmation" required="" ng-model="model.passwordConfirmation">
+      <div class="input-group">
+        <input type="email" class="form-control" placeholder="Email address" autofocus="" ng-model="model.email">
+        <span class="input-group-addon">!</span>
+      </div>
+      <input type="password" class="form-control" placeholder="Password" ng-model="model.password">
+      <input type="password" class="form-control" placeholder="Password confirmation"
+             ng-model="model.passwordConfirmation">
       <a class="btn btn-block btn-social btn-facebook">
         <i class="fa fa-facebook"></i>Sign up with Facebook
       </a>
