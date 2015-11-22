@@ -66,6 +66,10 @@ a {
     border-bottom: 1px solid #e5e5e5;
 }
 
+.philosophy-search .jumbotron   {
+    margin-top: 20px;
+}
+
 table.result th:nth-child(1) {
     width: 25%;
 }
@@ -118,6 +122,10 @@ table.result th:nth-child(2) {
         font-size: 56px;
     }
 
+    /*.container {*/
+        /*margin-top: 20px 0px;*/
+    /*}*/
+
     /* Remove the padding we set earlier */
     .header,
     .marketing,
@@ -128,7 +136,7 @@ table.result th:nth-child(2) {
 
     /* Space out the masthead */
     .header {
-        margin-bottom: 30px;
+        margin-bottom: 0px;
     }
 
     /* Remove the bottom border on the jumbotron for visual effect */
