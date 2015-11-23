@@ -15,7 +15,7 @@ angular.module('philosophySearchApp').config(['$routeProvider', '$httpProvider',
       templateUrl: 'static/views/register.html',
       controller: 'RegisterCtrl'
     }).
-    when('/user', {
+    when('/user/:id?', {
       templateUrl: 'static/user/user.html',
       controller: 'UserCtrl'
     }).

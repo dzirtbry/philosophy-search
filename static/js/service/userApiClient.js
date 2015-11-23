@@ -4,6 +4,7 @@
 var TOKEN_URL = "http://192.168.0.2:8888/training-planner/api/oauth/token";
 var USERS_URL = "http://192.168.0.2:8888/training-planner/api/users";
 var ME_URL = "http://192.168.0.2:8888/training-planner/api/users/me";
+var USER_URL = "http://192.168.0.2:8888/training-planner/api/users/";
 
 angular.module('philosophySearchApp')
   .factory('userApiClient', ['$http', '$q', function ($http, $q) {
@@ -55,9 +56,11 @@ angular.module('philosophySearchApp')
           withCredential: true
         });
       },
-      user: function (username) {
-        return $q(function (resolve, reject) {
-          reject({data: "Not supported."});
+      user: function (id) {
+        return $http({
+          url: USER_URL+id,
+          method: "GET",
+          withCredential: true
         });
       }
     };
