@@ -4,20 +4,24 @@
 angular.module('philosophySearchApp').config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
   $routeProvider.
     when('/', {
-      templateUrl: 'static/views/main.html',
+      templateUrl: 'views/main.html',
       controller: 'MainCtrl'
     }).
     when('/login', {
-      templateUrl: 'static/views/login.html',
+      templateUrl: 'views/login.html',
       controller: 'LoginCtrl'
     }).
     when('/register', {
-      templateUrl: 'static/views/register.html',
+      templateUrl: 'views/register.html',
       controller: 'RegisterCtrl'
     }).
     when('/user/:id?', {
-      templateUrl: 'static/user/user.html',
+      templateUrl: 'user/user.html',
       controller: 'UserCtrl'
+    }).
+    when('/game/:id', {
+      templateUrl: 'game/game.html',
+      controller: 'GameCtrl'
     }).
     otherwise({
       redirectTo: '/'

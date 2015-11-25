@@ -15,7 +15,7 @@ philosophy_cache = {}
 class StaticService(object):
     @cherrypy.expose
     def index(self):
-        return open('static/index.html')
+        return open('frontend/src/index.html')
 
 
 class UrlTracerWebService(object):
@@ -86,9 +86,14 @@ if __name__ == '__main__':
             'server.socket_host': '0.0.0.0',
             'server.socket_port': int(os.environ.get('PORT', '5000'))
         },
+        # '/': {
+        #     'tools.sessions.on': True,
+        #     'tools.staticdir.root': os.path.abspath(os.getcwd())
+        # },
         '/': {
-            'tools.sessions.on': True,
-            'tools.staticdir.root': os.path.abspath(os.getcwd())
+            'tools.staticdir.on': True,
+            'tools.staticdir.root': os.path.abspath(os.getcwd()),
+            'tools.staticdir.dir': './frontend/src'
         },
         '/wiki': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
@@ -99,11 +104,8 @@ if __name__ == '__main__':
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             'tools.response_headers.on': True,
             'tools.response_headers.headers': [('Content-Type', 'application/json')],
-        },
-        '/static': {
-            'tools.staticdir.on': True,
-            'tools.staticdir.dir': './static'
         }
+
     }
     webapp = StaticService()
     webapp.wiki = UrlTracerWebService()
