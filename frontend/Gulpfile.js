@@ -8,6 +8,7 @@ var plumber = require('gulp-plumber');
 var prefixer = require('gulp-autoprefixer');
 
 var config = {
+  devVars: './src/env/dev.js',
   less: ['./src/less/superhero.less'],
   index: ['./src/index.html'],
   js: [
@@ -63,7 +64,8 @@ gulp.task('wiredep', /*['styles'],*/ function () {
   return gulp.src(config.index)
     .pipe(print())
     .pipe(wireStream(options))
-    .pipe(inject(gulp.src(config.js), {relative: true}))
+    .pipe(inject(gulp.src(config.js.concat(config.devVars)), {relative: true}))
+    .pipe(print())
     .pipe(inject(gulp.src(config.css), {relative: true}))
     .pipe(gulp.dest(config.client))
 });
