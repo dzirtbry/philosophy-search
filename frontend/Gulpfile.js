@@ -14,6 +14,9 @@ var config = {
     './src/js/**/*.module.js',
     './src/js/**/*.js'
   ],
+  css: [
+    './src/css/**/*.css'
+  ],
   client: './src/'
 };
 
@@ -61,6 +64,7 @@ gulp.task('wiredep', /*['styles'],*/ function () {
     .pipe(print())
     .pipe(wireStream(options))
     .pipe(inject(gulp.src(config.js), {relative: true}))
+    .pipe(inject(gulp.src(config.css), {relative: true}))
     .pipe(gulp.dest(config.client))
 });
 
