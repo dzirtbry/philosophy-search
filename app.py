@@ -10,12 +10,13 @@ from urllib2 import urlopen, unquote, HTTPError
 WIKI_ROOT = 'https://en.wikipedia.org'
 
 philosophy_cache = {}
+staticDir = './frontend/src/'
 
 
 class StaticService(object):
     @cherrypy.expose
     def index(self):
-        return open('./frontend/src/index.html')
+        return open(staticDir + 'index.html')
 
 
 class UrlTracerWebService(object):
@@ -80,6 +81,9 @@ def jsonify_error(status, message, traceback, version):
 
 
 if __name__ == '__main__':
+    isDev = bool(os.environ.get('IS_DEV', True))
+    staticDir = './frontend/src/' if isDev else './frontend/dist/';
+
     conf = {
         'global': {
             'error_page.default': jsonify_error,
@@ -90,7 +94,7 @@ if __name__ == '__main__':
         '/': {
             'tools.sessions.on': True,
             'tools.staticdir.on' : True,
-            'tools.staticdir.dir': './frontend/src/'
+            'tools.staticdir.dir': staticDir
         },
         '/wiki': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
