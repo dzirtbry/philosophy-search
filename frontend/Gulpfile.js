@@ -30,6 +30,9 @@ var config = {
     './src/**/*.html',
     '!'+'./**/index.html'
   ],
+  img: [
+    './src/img/**/*.*'
+  ],
   client: './src/',
   dist: 'dist/'
 };
@@ -56,7 +59,7 @@ gulp.task('clean-styles', function (done) {
   done();
 });
 
-gulp.task('styles', function () {
+gulp.task('styles', ['clean-styles'], function () {
   return gulp.src(config.less)
     .pipe(plumber())
     .pipe(less())
@@ -107,7 +110,13 @@ gulp.task('dist-templates', function() {
     .pipe(gulp.dest(config.dist))
 });
 
-gulp.task('dist', ['clean-dist', 'dist-templates', 'dist-fonts', 'wiredep'], function () {
+gulp.task('dist-images', function () {
+  return gulp.src(config.img)
+    .pipe(print())
+    .pipe(gulp.dest(config.dist + '/img'))
+});
+
+gulp.task('dist', ['clean-dist', 'dist-templates', 'dist-images', 'dist-fonts', 'wiredep'], function () {
   return gulp
     .src(config.index)
     .pipe(plumber())
