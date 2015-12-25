@@ -6,7 +6,8 @@
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Trace Philosophy"/>
   <meta property="og:site_name" content="Trace Philosophy"/>
-  <meta property="og:description" content="Check if you will get to Philosophy continuously following first link on wiki page"/>
+  <meta property="og:description"
+        content="Check if you will get to Philosophy continuously following first link on wiki page"/>
   <meta property="og:image" content="http://philosophy.dzirtbry.com/static/img/preview.jpg"/>
 
   <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
@@ -23,7 +24,7 @@
 
   <!-- build:css css/lib.css-->
   <!-- bower:css-->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
   <!-- endbower-->
   <!-- endbuild-->
 
@@ -49,10 +50,17 @@
   <!-- endbuild-->
 
   <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+          }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-64781908-2', 'auto');
     ga('send', 'pageview');
   </script>
@@ -68,6 +76,7 @@
   <div class="footer">
     <div class="container">
       <span class="glyphicon glyphicon-heart"></span> from <a href="//me.dzirtbry.com" target="_blank">dzirtbry</a>
+
       <div class="pull-right">
         <div ng-include="'/views/social.html'"></div>
       </div>
