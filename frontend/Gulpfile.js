@@ -1,6 +1,5 @@
 var del = require('del');
 var gulp = require('gulp');
-var less = require('gulp-less');
 var wiredep = require('wiredep');
 var print = require('gulp-print');
 var inject = require('gulp-inject');
@@ -55,28 +54,15 @@ gulp.task('test', function () {
 gulp.task('clean', ['clean-styles']);
 
 gulp.task('clean-styles', function (done) {
-  del('./src/css/superhero.css');
+  del.sync('./src/css/superhero.css');
   done();
-});
-
-gulp.task('styles', ['clean-styles'], function () {
-  return gulp.src(config.less)
-    .pipe(plumber())
-    .pipe(less())
-    .on('error', function (err) {
-      // Should be obsolete in gulp 4.0. In gulp 3.6.x - cause watch to fail.
-      console.log(err);
-      this.emit('end');
-    })
-    .pipe(prefixer({browsers: ['last 2 versions', '> 5%']}))
-    .pipe(gulp.dest("./src/css/"));
 });
 
 gulp.task('less-watch', function () {
   gulp.watch([config.less], ['styles'])
 });
 
-gulp.task('wiredep', ['styles'], function () {
+gulp.task('wiredep', function () {
   var options = config.wiredepOptions();
   wireStream = wiredep.stream;
   return gulp.src(config.index)
@@ -121,6 +107,7 @@ gulp.task('dist', ['clean-dist', 'dist-templates', 'dist-images', 'dist-fonts', 
     .src(config.index)
     .pipe(plumber())
     .pipe(useref())
+    .pipe(print())
     .pipe(gulp.dest(config.dist));
 });
 
