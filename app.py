@@ -74,7 +74,7 @@ class PhilosophyUrlWebService(object):
         return json.dumps({"name": next_word, "url": next_url})
 
 def CORS():
-    cherrypy.response.headers["Access-Control-Allow-Origin"] = "*.dzirtbry.com"
+    cherrypy.response.headers["Access-Control-Allow-Origin"] = "http://philosophy.dzirtbry.com"
 
 
 def jsonify_error(status, message, traceback, version):
