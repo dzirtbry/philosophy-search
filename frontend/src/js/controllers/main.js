@@ -97,7 +97,7 @@
 
         wiki.getNextPage(currentPage.url).then(
           function (data) {
-            var nextPage = analyzeResponse(data, path);
+            var nextPage = analyzeResponse(data.data, path);
             if (nextPage != undefined && nextPage != null) {
               path.push(nextPage);
             }
