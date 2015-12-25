@@ -54,7 +54,11 @@
       function handleError(data, status, xhr) {
         $scope.tracing = false;
         $scope.error.on = true;
-        $scope.error.message = data.message;
+        if (data && data.message) {
+          $scope.error.message = data.message;
+        } else {
+          $scope.error.message = "Unexpected error";
+        }
       }
 
       function analyzeResponse(data, path) {
@@ -91,13 +95,16 @@
           return;
         }
 
-        wiki.getNextPage(currentPage.url).success(function (data) {
-          var nextPage = analyzeResponse(data, path);
-          if (nextPage != undefined && nextPage != null) {
-            path.push(nextPage);
-          }
-          tracePath(path);
-        }).error(handleError);
+        wiki.getNextPage(currentPage.url).then(
+          function (data) {
+            var nextPage = analyzeResponse(data, path);
+            if (nextPage != undefined && nextPage != null) {
+              path.push(nextPage);
+            }
+            tracePath(path);
+          }, function (data) {
+            handleError(data)
+          });
       }
 
 

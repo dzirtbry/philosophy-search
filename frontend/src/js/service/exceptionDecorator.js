@@ -7,6 +7,7 @@
           return function (exception, cause) {
             $delegate(exception, cause);
             console.log("My logger " + exception);
+            ga('send', 'event', 'error', 'message', exception);
           }
         }]
       );

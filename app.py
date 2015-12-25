@@ -73,6 +73,9 @@ class PhilosophyUrlWebService(object):
         next_word, next_url = self.find_philosophy(lang)
         return json.dumps({"name": next_word, "url": next_url})
 
+def CORS():
+    cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+
 
 def jsonify_error(status, message, traceback, version):
     response = cherrypy.response
@@ -82,15 +85,15 @@ def jsonify_error(status, message, traceback, version):
 
 if __name__ == '__main__':
 
-    isDev = bool(os.environ.get('IS_DEV', True))
-    staticDir = './frontend/src/' if isDev else './frontend/dist/';
+    isDev = os.environ.get('IS_DEV', 'True')
+    staticDir = './frontend/src/' if isDev == 'True' else './frontend/dist/app/'
 
     conf = {
         'global': {
             'error_page.default': jsonify_error,
             'server.socket_host': '0.0.0.0',
             'server.socket_port': int(os.environ.get('PORT', '5000')),
-            'tools.staticdir.root': os.path.abspath(os.getcwd())
+            'tools.staticdir.root': os.path.abspath(os.getcwd()),
         },
         '/': {
             'tools.sessions.on': True,
@@ -99,15 +102,18 @@ if __name__ == '__main__':
         },
         '/wiki': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+            'tools.CORS.on': True,
             'tools.response_headers.on': True,
             'tools.response_headers.headers': [('Content-Type', 'application/json')],
         },
         '/wiki/philosophy': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+            'tools.CORS.on': True,
             'tools.response_headers.on': True,
             'tools.response_headers.headers': [('Content-Type', 'application/json')],
         },
     }
+    cherrypy.tools.CORS = cherrypy.Tool('before_handler', CORS)
     webapp = StaticService()
     webapp.wiki = UrlTracerWebService()
     webapp.wiki.philosophy = PhilosophyUrlWebService()
