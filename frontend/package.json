@@ -25,6 +25,7 @@
     "gulp-task-listing": "^1.0.1",
     "gulp-useref": "^3.0.4",
     "gulp-util": "^3.0.7",
+    "gulp-zip": "^3.0.2",
     "jasmine": "^2.3.2",
     "jshint-stylish": "^2.1.0",
     "karma": "^0.13.15",

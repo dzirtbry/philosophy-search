@@ -9,9 +9,11 @@ var flatten = require('gulp-flatten');
 var useref = require('gulp-useref');
 var taskListing = require('gulp-task-listing');
 var gulpBowerFiles = require('gulp-bower-files');
+var zip = require('gulp-zip');
 
 var config = {
   devVars: './src/env/dev.js',
+  distVars: './src/env/prod.js',
   less: ['./src/less/superhero.less'],
   index: ['./src/index.html'],
   js: [
@@ -27,7 +29,7 @@ var config = {
   ],
   html: [
     './src/**/*.html',
-    '!'+'./**/index.html'
+    '!' + './**/index.html'
   ],
   img: [
     './src/img/**/*.*'
@@ -57,16 +59,16 @@ gulp.task('test', function () {
 gulp.task('wiredep', function () {
   var options = config.wiredepOptions();
   wireStream = wiredep.stream;
-  return gulp.src(config.index)
+  return injectConfigs(config.devVars)
     .pipe(print())
     .pipe(wireStream(options))
-    .pipe(inject(gulp.src(config.js.concat(config.devVars)), {relative: true}))
+    .pipe(inject(gulp.src([].concat(config.js)), {relative: true}))
     .pipe(print())
     .pipe(inject(gulp.src(config.css), {relative: true}))
-    .pipe(gulp.dest(config.client))
+    .pipe(gulp.dest(config.client));
 });
 
-gulp.task('clean-dist', function(done) {
+gulp.task('clean-dist', function (done) {
   del.sync(config.dist);
   done();
 });
@@ -78,11 +80,11 @@ gulp.task('dist-fonts', function () {
     .pipe(gulp.dest(config.distApp + '/fonts'))
 });
 
-gulp.task('dist-libs', function() {
+gulp.task('dist-libs', function () {
   return gulpBowerFiles().pipe(print());
 });
 
-gulp.task('dist-templates', function() {
+gulp.task('dist-templates', function () {
   return gulp.src(config.html)
     .pipe(print())
     .pipe(gulp.dest(config.distApp))
@@ -94,12 +96,27 @@ gulp.task('dist-images', function () {
     .pipe(gulp.dest(config.distApp + '/img'))
 });
 
-gulp.task('dist', ['clean-dist', 'dist-templates', 'dist-images', 'dist-fonts', 'wiredep'], function () {
-  return gulp
-    .src(config.index)
+gulp.task('dist-build', ['clean-dist', 'dist-templates', 'dist-images', 'dist-fonts', 'wiredep'], function () {
+  return injectConfigs(config.distVars)
     .pipe(plumber())
     .pipe(useref())
     .pipe(print())
     .pipe(gulp.dest(config.distApp));
 });
+
+gulp.task('dist', ['dist-build'], function () {
+  return gulp.src(config.distApp + '/**/*.*')
+    .pipe(zip('dist.zip'))
+    .pipe(gulp.dest(config.dist));
+});
+
+function injectConfigs(configFile) {
+  return gulp.src(config.index)
+    .pipe(plumber())
+    .pipe(inject(gulp.src(configFile), {
+      read: false,
+      relative: true,
+      starttag: '<!-- inject:config:js -->'
+    }))
+}
 

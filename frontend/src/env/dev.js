@@ -1,8 +1,8 @@
 /**
-  * Created on 12/22/15.
-  *
-  * @author dzirtbry
-  */
+ * Created on 12/22/15.
+ *
+ * @author dzirtbry
+ */
 (function () {
   'use strict';
   angular.module('philosophySearchApp')
