@@ -6,7 +6,6 @@ import cherrypy
 
 from lxml import html
 from urllib2 import urlopen, unquote, HTTPError
-import sys
 
 WIKI_ROOT = 'https://en.wikipedia.org'
 
@@ -82,18 +81,9 @@ def jsonify_error(status, message, traceback, version):
 
 
 if __name__ == '__main__':
-    print (sys.argv)
 
-    if sys.argv.count('dev') > 0:
-        staticDir = './frontend/src/'
-    else:
-        staticDir = './frontend/dist/'
-
-
-
-
-        # isDev = bool(os.environ.get('IS_DEV', True))
-    # staticDir = './frontend/src/' if isDev else './frontend/dist/';
+    isDev = bool(os.environ.get('IS_DEV', True))
+    staticDir = './frontend/src/' if isDev else './frontend/dist/';
 
     conf = {
         'global': {

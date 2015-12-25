@@ -33,7 +33,10 @@ var config = {
     './src/img/**/*.*'
   ],
   client: './src/',
-  dist: 'dist/'
+  dist: 'dist/',
+  distApp: 'dist/' + 'app/'
+
+
 };
 
 config.wiredepOptions = function () {
@@ -51,17 +54,6 @@ gulp.task('test', function () {
   console.log('No tests this far.')
 });
 
-gulp.task('clean', ['clean-styles']);
-
-gulp.task('clean-styles', function (done) {
-  del.sync('./src/css/superhero.css');
-  done();
-});
-
-gulp.task('less-watch', function () {
-  gulp.watch([config.less], ['styles'])
-});
-
 gulp.task('wiredep', function () {
   var options = config.wiredepOptions();
   wireStream = wiredep.stream;
@@ -75,7 +67,7 @@ gulp.task('wiredep', function () {
 });
 
 gulp.task('clean-dist', function(done) {
-  del(config.dist);
+  del.sync(config.dist);
   done();
 });
 
@@ -83,7 +75,7 @@ gulp.task('dist-fonts', function () {
   return gulp.src(config.fonts)
     .pipe(print())
     .pipe(flatten())
-    .pipe(gulp.dest(config.dist + '/fonts'))
+    .pipe(gulp.dest(config.distApp + '/fonts'))
 });
 
 gulp.task('dist-libs', function() {
@@ -93,13 +85,13 @@ gulp.task('dist-libs', function() {
 gulp.task('dist-templates', function() {
   return gulp.src(config.html)
     .pipe(print())
-    .pipe(gulp.dest(config.dist))
+    .pipe(gulp.dest(config.distApp))
 });
 
 gulp.task('dist-images', function () {
   return gulp.src(config.img)
     .pipe(print())
-    .pipe(gulp.dest(config.dist + '/img'))
+    .pipe(gulp.dest(config.distApp + '/img'))
 });
 
 gulp.task('dist', ['clean-dist', 'dist-templates', 'dist-images', 'dist-fonts', 'wiredep'], function () {
@@ -108,6 +100,6 @@ gulp.task('dist', ['clean-dist', 'dist-templates', 'dist-images', 'dist-fonts', 
     .pipe(plumber())
     .pipe(useref())
     .pipe(print())
-    .pipe(gulp.dest(config.dist));
+    .pipe(gulp.dest(config.distApp));
 });
 
