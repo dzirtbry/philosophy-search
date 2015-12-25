@@ -7,7 +7,7 @@
   'use strict';
   angular.module('philosophySearchApp')
     .constant('API', {
-      ENDPOINT: 'http://philosophy.dzirtbry.com'
+      ENDPOINT: 'http://api.philosophy.dzirtbry.com'
     });
 
 })();
