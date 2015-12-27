@@ -9,6 +9,9 @@ var flatten = require('gulp-flatten');
 var useref = require('gulp-useref');
 var taskListing = require('gulp-task-listing');
 var gulpBowerFiles = require('gulp-bower-files');
+var gulpif = require('gulp-if');
+var uglify = require('gulp-uglify');
+var minifyCss = require('gulp-minify-css');
 var zip = require('gulp-zip');
 
 var config = {
@@ -100,7 +103,8 @@ gulp.task('dist-build', ['clean-dist', 'dist-templates', 'dist-images', 'dist-fo
   return injectConfigs(config.distVars)
     .pipe(plumber())
     .pipe(useref())
-    .pipe(print())
+    .pipe(gulpif('*.js', uglify()))
+    .pipe(gulpif('*.css', minifyCss()))
     .pipe(gulp.dest(config.distApp));
 });
 
